@@ -1,8 +1,19 @@
-# React + Vite
+# Overview
+This repository contains code for a React Application that utilizes Spotify's API to display user information. Currently, it displays the user's Top 50 Songs in the past month.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# TODO
+- [ ] Currently if you reload the application the songs disappear.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Setup
+
+
+# Features
+- Currently only displays users Top 50 songs for the past month (Assuming you gave it access)
+
+
+# Planned Features
+
+
+
+
