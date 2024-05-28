@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import {trackNames, storedtrackNames} from './APIRequest'
+import {trackNames} from './APIRequest'
 
 function App() {
   const [trackNamesHook, setTrackNamesHook] = useState([])
@@ -8,11 +8,12 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if(storedtrackNames) {
-        setTrackNamesHook(JSON.parse(storedtrackNames));
+      const savedTrackNames = localStorage.getItem('trackNames');
+      if(savedTrackNames !== null && savedTrackNames.length !== 0) {
+        setTrackNamesHook(JSON.parse(savedTrackNames));
       } else {
         try {
-          localStorage.setItem('trackNames', JSON.stringify(trackNames));
+          //localStorage.setItem('trackNames', JSON.stringify(trackNames));
           setTrackNamesHook(trackNames); // Set track names to state
         } catch (error) {
           console.error('Error fetching track names:', error);

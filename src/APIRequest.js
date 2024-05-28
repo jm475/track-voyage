@@ -3,19 +3,15 @@ const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
 export var trackNames = [];
 
- export const storedtrackNames = localStorage.getItem("trackNames")
 
-if(storedtrackNames) {
-    
+if (!code) {
+    redirectToAuthCodeFlow(clientId);
 } else {
-    if (!code) {
-        redirectToAuthCodeFlow(clientId);
-    } else {
-        const accessToken = await getAccessToken(clientId, code);
-        const tracks = await fetchTracks(accessToken);
-        populateUI(tracks);
-    }   
-}
+    const accessToken = await getAccessToken(clientId, code);
+    const tracks = await fetchTracks(accessToken);
+    populateUI(tracks);
+}   
+
 
 
 /**
@@ -105,6 +101,7 @@ function populateUI(tracks) {
             var trackName = tracks.items[i].name;
             trackNames.push(trackName);
             }
+        localStorage.setItem('trackNames', JSON.stringify(trackNames));
     } catch (error) {
         
     }
