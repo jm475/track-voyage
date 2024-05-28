@@ -3,15 +3,20 @@ const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
 export var trackNames = [];
 
-if (!code) {
-    redirectToAuthCodeFlow(clientId);
-} else {
-    const accessToken = await getAccessToken(clientId, code);
-    const tracks = await fetchTracks(accessToken);
-    populateUI(tracks);
-    // console.log(tracks);
+ export const storedtrackNames = localStorage.getItem("trackNames")
 
+if(storedtrackNames) {
+    
+} else {
+    if (!code) {
+        redirectToAuthCodeFlow(clientId);
+    } else {
+        const accessToken = await getAccessToken(clientId, code);
+        const tracks = await fetchTracks(accessToken);
+        populateUI(tracks);
+    }   
 }
+
 
 /**
  * Display the popup to give the application access to user data
