@@ -15,7 +15,8 @@ if (!code) {
 
 
 /**
- * Display the popup to give the application access to user data
+ * Display the popup to give the application access to user data,
+ * Create a new URLSearchParams object and add the scope parameters to it
  * @param {*} clientId 
  */
 async function redirectToAuthCodeFlow(clientId) {
@@ -27,6 +28,8 @@ async function redirectToAuthCodeFlow(clientId) {
     const params = new URLSearchParams();
     params.append("client_id", clientId);
     params.append("response_type", "code");
+    // Redirect uri is the URL that Spotify will redirect back to after the user authorizes the application
+    //  In this case it points to the local dev server
     params.append("redirect_uri", "http://localhost:5173/callback");
     params.append("scope", "user-top-read");
     params.append("code_challenge_method", "S256");
@@ -65,8 +68,12 @@ async function generateCodeChallenge(codeVerifier) {
 }
 
 
-
+/**
+ * Uses the verifier and code returned from the callback to perform a POST to the Spotify token API
+ * Uses these two values to verify the request and return an access token
+ */
 async function getAccessToken(clientId, code) {
+    // Load verifier from local storage
     const verifier = localStorage.getItem("verifier");
 
     const params = new URLSearchParams();
@@ -85,6 +92,8 @@ async function getAccessToken(clientId, code) {
     const { access_token } = await result.json();
     return access_token;
 }
+
+
 
 async function fetchTracks(token) {
     const result = await fetch("https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=50", {
