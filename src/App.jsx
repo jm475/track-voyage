@@ -1,35 +1,44 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import {trackNames} from './APIRequest'
-
+import { login, getToken } from './Auth';
+import API from './API';
 function App() {
-  const [trackNamesHook, setTrackNamesHook] = useState([])
 
+  // State variable to store the authentication token
+  //const [token, setToken] = useState(null);
 
+  // State variable to store the authentication token
+  const [token, setToken] = useState(localStorage.getItem('spotify_token'));
+
+  // useEffect hook to handle authentication flow
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        localStorage.setItem('trackNames', JSON.stringify(trackNames));
-        setTrackNamesHook(trackNames); // Set track names to state
-      } catch (error) {
-        console.error('Error fetching track names:', error);
-      }
-    };
-    fetchData();
-  }, []); // Empty dependency array ensures this effect runs only once after the component mounts
+    // Extract authorization code from URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    // If authorization code is present, exchange it for an access token
+    if (code) {
+      getToken(code).then((token) => {
 
+        // Set the token in the state
+        setToken(token);
 
+        // Store the token in localStorage
+        localStorage.setItem('spotify_token', token); 
+        
+        // Clean up URL by removing the code query parameter
+        window.history.pushState({}, null, '/'); 
+      });
+    }
+  }, []);
 
-  return (
-    <div id="app">
-    <h2>Track Names:</h2>
-      <ol type="1">
-        {trackNamesHook.map((trackName, index) => (
-          <li key={index}> {trackName}</li>
-        ))}
-      </ol>
-    </div>
-  )
-}
+  // If token is not present, render a button to initiate login process
+  if (!token) {
+    return <button onClick={login}>Login to Spotify</button>;
+  }
 
-export default App
+  // If token is present, render the API component and pass the token as prop
+  return <API token={token} />;
+};
+
+  
+export default App;
