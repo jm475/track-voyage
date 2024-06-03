@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // Spotify application credentials
-const CLIENT_ID = '3f82361276a547519ebc34ef0c594a5c';
-const CLIENT_SECRET = '475e5b10865942eda3f1bf9a15e627a4';
+const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
 const REDIRECT_URI = 'http://localhost:5173/callback';
 
 // Spotify API endpoints
