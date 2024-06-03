@@ -1,35 +1,28 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import {trackNames} from './APIRequest'
-
+import { login, getToken } from './Auth';
+import API from './API';
 function App() {
-  const [trackNamesHook, setTrackNamesHook] = useState([])
 
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        localStorage.setItem('trackNames', JSON.stringify(trackNames));
-        setTrackNamesHook(trackNames); // Set track names to state
-      } catch (error) {
-        console.error('Error fetching track names:', error);
-      }
-    };
-    fetchData();
-  }, []); // Empty dependency array ensures this effect runs only once after the component mounts
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    if (code) {
+      getToken(code).then((token) => {
+        setToken(token);
+        window.history.pushState({}, null, '/'); // Clean up URL
+      });
+    }
+  }, []);
 
+  if (!token) {
+    return <button onClick={login}>Login to Spotify</button>;
+  }
 
+  return <API token={token} />;
+};
 
-  return (
-    <div id="app">
-    <h2>Track Names:</h2>
-      <ol type="1">
-        {trackNamesHook.map((trackName, index) => (
-          <li key={index}> {trackName}</li>
-        ))}
-      </ol>
-    </div>
-  )
-}
-
-export default App
+  
+export default App;
