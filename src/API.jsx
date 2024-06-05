@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import ListItem from './listItem';
 
 const API = ({ token }) => {
     // State to store user data
@@ -7,6 +8,11 @@ const API = ({ token }) => {
     // State to store track names
     const [trackNamesHook, setTrackNamesHook] = useState([])
 
+    const [trackArtistHook, setTrackArtistHook] = useState([])
+
+    const [trackImagesHook, setTrackImagesHook] = useState([])
+
+    
 
     // Function to fetch user's top tracks
     const fetchUserTracks = () => {
@@ -21,6 +27,8 @@ const API = ({ token }) => {
             setUserData(response.data);
             // Populate track names hook with the fetched data
             populateTrackNamesHook(response.data);
+            populateTrackArtistsHook(response.data);
+            //populateTrackImagesHook(response.data);
         })
         .catch(error => {
             // Log any errors that occur during the API request
@@ -43,28 +51,74 @@ const API = ({ token }) => {
             
         }
 
+         // Function to populate track artists hook
+         function populateTrackArtistsHook(userData) {
+          try {
+              // Extract track artists from user data
+              const trackArtists = userData.items.map(track => {
+                // Assuming the "artists" field contains an array of artist objects
+                return track.artists.map(artist => artist.name).join(", ");
+              });
+              // Update state with new track artists
+              setTrackArtistHook(trackArtists); 
 
-    
+          } catch (error) {
+              // Log any errors that occur during the population of track artists
+              console.error('Error populating track names:', error);
+          }
+          
+      }
+
+
+        // Function to populate track images hook
+        function populateTrackImagesHook(userData) {
+        try {
+          // Extract track images from user data
+          const trackImages = userData.items.map(track => {
+            // Assuming the "images" field contains an array of image objects
+            return track.images.map(image => image.url);
+          });
+          // Update state with new track images
+          setTrackImagesHook(trackImages); 
+        } catch (error) {
+          // Log any errors that occur during the population of track images
+          console.error('Error populating track images:', error);
+        }
+        
+      }
+
 
 
   };
 
+
+
   return (
-    <div className="API">
-      <header className="API-header">
+    <div className="Container">
        {/* Clear the trackNames Hook and then fetch the user tracks upon button press */}
         <button onClick={() => {setTrackNamesHook([]); fetchUserTracks(); }}>Fetch Users Top Tracks</button>
+
         {userData && (
-          <div>
-            <ol type="1">
+          <div class="list-item">
+            <ol class="custom-list" type="1">
                 {/* Display the track names */}
-            {trackNamesHook.map((trackName, index) => (
-          <li key={index}> {trackName}</li>
-        ))}
-      </ol>
+                {trackNamesHook.map((trackName, index) => (<li key={index}> {trackName}</li>))}
+            </ol>
           </div>
         )}
-      </header>
+       
+
+       {trackNamesHook.map((trackName, index) => (
+                <ListItem
+                    key={index}
+                    number={index + 1}
+                    trackNameLS={trackName}
+                    trackArtistLS={trackArtistHook[index]}
+                    image={trackImagesHook[index]}
+                    icon=""
+                />
+            ))}
+
     </div>
   );
 };

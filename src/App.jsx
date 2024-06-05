@@ -5,10 +5,10 @@ import API from './API';
 function App() {
 
   // State variable to store the authentication token
-  //const [token, setToken] = useState(null);
+  const [token, setToken] = useState(null);
 
   // State variable to store the authentication token
-  const [token, setToken] = useState(localStorage.getItem('spotify_token'));
+  //const [token, setToken] = useState(localStorage.getItem('spotify_token'));
 
   // useEffect hook to handle authentication flow
   useEffect(() => {
@@ -33,7 +33,7 @@ function App() {
 
   // If token is not present, render a button to initiate login process
   if (!token) {
-    return <button onClick={login}>Login to Spotify</button>;
+    return <button id="login" onClick={login}>Login to Spotify</button>;
   }
 
   // If token is present, render the API component and pass the token as prop

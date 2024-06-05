@@ -5,6 +5,7 @@ const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
 const REDIRECT_URI = 'http://localhost:5173/callback';
 
+
 // Spotify API endpoints
 const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
 const TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token';
