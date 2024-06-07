@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import ListItem from './listItem';
 
@@ -12,12 +12,21 @@ const API = ({ token }) => {
 
     const [trackImagesHook, setTrackImagesHook] = useState([])
 
-    
+    const [trackLinksHook, setTrackLinksHook] = useState([])
+
+    const [trackPreviewUrlsHook, setTrackPreviewUrlsHook] = useState([])
+
+
+    // Define three different URL variables with different time ranges
+    const shortTermUrl = 'https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=50';
+    const mediumTermUrl = 'https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=50';
+    const longTermUrl = 'https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50';
+  
 
     // Function to fetch user's top tracks
-    const fetchUserTracks = () => {
+    const fetchUserTracks = async (url) => {
         // Make an API request to get user's top tracks
-        axios.get('https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=50', {
+        axios.get(url, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -28,7 +37,9 @@ const API = ({ token }) => {
             // Populate track names hook with the fetched data
             populateTrackNamesHook(response.data);
             populateTrackArtistsHook(response.data);
-            //populateTrackImagesHook(response.data);
+            populateTrackImagesHook(response.data);
+            populateTrackLinksHook(response.data);
+            populateTrackPreviewUrlsHook(response.data);
         })
         .catch(error => {
             // Log any errors that occur during the API request
@@ -73,10 +84,12 @@ const API = ({ token }) => {
         // Function to populate track images hook
         function populateTrackImagesHook(userData) {
         try {
-          // Extract track images from user data
-          const trackImages = userData.items.map(track => {
-            // Assuming the "images" field contains an array of image objects
-            return track.images.map(image => image.url);
+            // Extract track images from user data
+            const trackImages = userData.items.map(track => {
+            // Assuming the "images" field contains an array of image objects within "album"
+            const images = track.album.images;
+            // Select the highest resolution image (the first one in the array)
+            return images[0].url;
           });
           // Update state with new track images
           setTrackImagesHook(trackImages); 
@@ -84,10 +97,74 @@ const API = ({ token }) => {
           // Log any errors that occur during the population of track images
           console.error('Error populating track images:', error);
         }
-        
+      }
+      
+
+      // Function to populate track images hook
+      function populateTrackLinksHook(userData) {
+        try {
+            // Extract the track URLs from each track in the user data
+            const trackUrls = userData.items.map(track => {
+              // Assuming the "external_urls" field contains an object with the "spotify" URL
+              return track.external_urls.spotify;
+          });
+          // Update state with new track links
+          setTrackLinksHook(trackUrls); 
+
+        } catch (error) {
+          // Log any errors that occur during the population of track images
+          console.error('Error populating track links:', error);
+        }
+      }
+
+      // Function to populate track preview URLs hook
+      function populateTrackPreviewUrlsHook(userData) {
+        try {
+          // Extract the preview URLs from each track in the user data
+          const trackPreviewUrls = userData.items.map(track => {
+            // Assuming the "preview_url" field contains the track preview URL
+            return track.preview_url;
+          });
+          // Update state with new track preview URLs
+          setTrackPreviewUrlsHook(trackPreviewUrls); 
+        } catch (error) {
+          // Log any errors that occur during the population of track preview URLs
+          console.error('Error populating track preview URLs:', error);
+        }
       }
 
 
+      // Function to play audio preview when hovering over a list item
+      function playAudioPreview() {
+        const audioPlayer = document.getElementById('audio-player');
+        audioPlayer.play();
+      }
+
+      // Function to stop playing audio preview
+      function stopAudioPreview() {
+        const audioPlayer = document.getElementById('audio-player');
+        audioPlayer.pause();
+        audioPlayer.currentTime = 0;
+      }
+
+
+      // Set up event listeners in useEffect
+      useEffect(() => {
+        const listItems = document.querySelectorAll('.list-item-test');
+
+        listItems.forEach(item => {
+          item.addEventListener('mouseenter', playAudioPreview);
+          item.addEventListener('mouseleave', stopAudioPreview);
+        });
+
+        // Cleanup event listeners when component unmounts
+        return () => {
+          listItems.forEach(item => {
+            item.removeEventListener('mouseenter', playAudioPreview);
+            item.removeEventListener('mouseleave', stopAudioPreview);
+          });
+        };
+      }, []); // Empty dependency array to run effect only once on mount
 
   };
 
@@ -95,18 +172,16 @@ const API = ({ token }) => {
 
   return (
     <div className="Container">
-       {/* Clear the trackNames Hook and then fetch the user tracks upon button press */}
-        <button onClick={() => {setTrackNamesHook([]); fetchUserTracks(); }}>Fetch Users Top Tracks</button>
+       {/* Fetch the user tracks upon button press */}
+        {/* <button onClick={() => {fetchUserTracks(); }}>Top Tracks (Last 4 Weeks)</button>
+        <button onClick={() => {fetchUserTracks(); }}>Top Tracks (Last 6 Months)</button> */}
 
-        {userData && (
-          <div class="list-item">
-            <ol class="custom-list" type="1">
-                {/* Display the track names */}
-                {trackNamesHook.map((trackName, index) => (<li key={index}> {trackName}</li>))}
-            </ol>
-          </div>
-        )}
-       
+        {/* Button to fetch top tracks for short term */}
+      <button onClick={() => fetchUserTracks(shortTermUrl)}>Top Tracks (Last 4 Weeks)</button>
+      {/* Button to fetch top tracks for medium term */}
+      <button onClick={() => fetchUserTracks(mediumTermUrl)}>Top Tracks (Last 6 Months)</button>
+      {/* Button to fetch top tracks for long term */}
+      <button onClick={() => fetchUserTracks(longTermUrl)}>Top Tracks (All Time)</button>
 
        {trackNamesHook.map((trackName, index) => (
                 <ListItem
@@ -115,7 +190,8 @@ const API = ({ token }) => {
                     trackNameLS={trackName}
                     trackArtistLS={trackArtistHook[index]}
                     image={trackImagesHook[index]}
-                    icon=""
+                    link={trackLinksHook[index]}
+                    preview={trackPreviewUrlsHook[index]}                              
                 />
             ))}
 
