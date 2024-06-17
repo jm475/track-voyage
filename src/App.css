@@ -7,8 +7,6 @@
   --Charcoal: #394053;
   --DavysGray: #4E4A59;
   --Wenge: #6E6362;
-  --my-gradient: linear-gradient(to bottom, #ff8a00, #da1b60); /* define gradient variable */
-
 }
 
 * {
@@ -19,25 +17,72 @@ html {
   background-color: var(--Charcoal);
 }
 
+
+
+.home-text {
+  color: var(--Emerald);
+  font-weight: 900;
+}
+
+.home-text2 {
+  color: var(--Emerald);
+  font-weight: 500;
+}
+
+#home-title {
+  font-size: 3rem;
+}
+
+
 /* CSS For login button found in App.jsx */
 #login {
-  border-radius: 15px;
+  border-radius: 10px;
   color: var(--Emerald);
   background-color: var(--DavysGray);
   font-weight: 900;
   border: 0;
-  min-width: 10rem;
-  min-height: 5rem;
+  min-width: 15rem;
+  min-height: 3rem;
   font-size: 1.2rem;
+  box-shadow: 0px 2px 1px 2px;
+  transition: scale 0.3s ease;
+  margin-top: 1.2rem;
 }
 
+
+/* Pressing the button */
 #login:active {
   opacity: 0.5;
 }
 
+/* When Hovering over the button change the scale */
+#login:hover {
+  scale: 1.1;
+  cursor: pointer;
+}
+
+/* Music note emojis initially hidden */
+#login::before, #login::after {
+  content: '🎵';
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  pointer-events: none; /* Prevent the emojis from interfering with button clicks */
+  opacity: 0; /* Start with opacity 0 to hide emojis */
+  transition: opacity 0.3s ease; /* Smooth transition for opacity */
+  filter: hue-rotate(180deg); /* Change color of emojis using hue rotation */
+}
+
+
+/* Show emojis on hover */
+#login:hover::before, #login:hover::after {
+  opacity: 1;
+}
+
+
 
 /* CSS for listitem found in API.jsx */
-.list-item-test {
+.list-item {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -53,7 +98,7 @@ html {
   transition: scale 0.3s ease;
 }
 
-.list-item-test:hover{
+.list-item:hover{
   scale: 1.1;
 }
 

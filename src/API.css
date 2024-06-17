@@ -1,0 +1,41 @@
+/* CSS to deal with elements in API component */
+:root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    --Emerald: #7BD389;
+    --Charcoal: #394053;
+    --DavysGray: #4E4A59;
+    --Wenge: #6E6362;
+  }
+
+button {
+  border-radius: 10px;
+  color: var(--Emerald);
+  background-color: var(--DavysGray);
+  font-weight: 900;
+  border: 0;
+  min-width: 15rem;
+  min-height: 3rem;
+  font-size: 1.2rem;
+  box-shadow: 0px 2px 1px 2px;
+  transition: scale 0.3s ease;
+}
+
+button:hover {
+  cursor: pointer;
+  scale: 1.1;
+}
+
+button:active {
+  
+}
+
+#button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 5rem;
+}

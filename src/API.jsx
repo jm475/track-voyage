@@ -1,15 +1,16 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import ListItem from './listItem';
+import './API.css';
 
 const API = ({ token }) => {
     // State to store user data
     const [userData, setUserData] = useState(null);
     // State to store track names
     const [trackNamesHook, setTrackNamesHook] = useState([])
-
+    
     const [trackArtistHook, setTrackArtistHook] = useState([])
-
+    
     const [trackImagesHook, setTrackImagesHook] = useState([])
 
     const [trackLinksHook, setTrackLinksHook] = useState([])
@@ -148,7 +149,7 @@ const API = ({ token }) => {
       }
 
 
-      // Set up event listeners in useEffect
+      // Set up event listeners for eahc list item in useEffect
       useEffect(() => {
         const listItems = document.querySelectorAll('.list-item-test');
 
@@ -171,18 +172,16 @@ const API = ({ token }) => {
 
 
   return (
-    <div className="Container">
-       {/* Fetch the user tracks upon button press */}
-        {/* <button onClick={() => {fetchUserTracks(); }}>Top Tracks (Last 4 Weeks)</button>
-        <button onClick={() => {fetchUserTracks(); }}>Top Tracks (Last 6 Months)</button> */}
-
+    <div className="container">
+      <div id="button-container">
         {/* Button to fetch top tracks for short term */}
-      <button onClick={() => fetchUserTracks(shortTermUrl)}>Top Tracks (Last 4 Weeks)</button>
-      {/* Button to fetch top tracks for medium term */}
-      <button onClick={() => fetchUserTracks(mediumTermUrl)}>Top Tracks (Last 6 Months)</button>
-      {/* Button to fetch top tracks for long term */}
-      <button onClick={() => fetchUserTracks(longTermUrl)}>Top Tracks (All Time)</button>
-
+        <button id="top-tracks-4-weeks" onClick={() => fetchUserTracks(shortTermUrl)}>Top Tracks (Last 4 Weeks)</button>
+        {/* Button to fetch top tracks for medium term */}
+        <button id="top-tracks-6-months" onClick={() => fetchUserTracks(mediumTermUrl)}>Top Tracks (Last 6 Months)</button>
+        {/* Button to fetch top tracks for long term */}
+        <button id="top-tracks-12-months" onClick={() => fetchUserTracks(longTermUrl)}>Top Tracks (Last 12 Months)</button>
+      </div>
+     
        {trackNamesHook.map((trackName, index) => (
                 <ListItem
                     key={index}

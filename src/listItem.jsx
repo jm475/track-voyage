@@ -26,7 +26,7 @@ const ListItem = ({ number, trackNameLS, trackArtistLS, image, link, preview}) =
 
 
     return (
-        <div className="list-item-test"
+        <div className="list-item"
         onMouseEnter={() => {
             setIsHovered(true);
             playAudioPreview();

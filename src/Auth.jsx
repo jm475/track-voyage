@@ -3,7 +3,10 @@ import axios from 'axios';
 // Spotify application credentials
 const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
-const REDIRECT_URI = 'http://localhost:5173/callback';
+// CHANGE THIS DEPENDING ON IF UR RELASEING THE WEBSITE OR USING A LOCAL SERVER TO DEVELOP
+// Website: https://trackvoyage.netlify.app/
+// Local: http://localhost:5173/
+const REDIRECT_URI = 'http://localhost:5173/';
 
 
 // Spotify API endpoints
