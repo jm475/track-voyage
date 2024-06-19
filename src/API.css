@@ -10,6 +10,14 @@
     --Wenge: #6E6362;
   }
 
+
+/* Container for all elements in the API component */
+#container {
+  display: flex;
+}
+
+
+
 button {
   border-radius: 10px;
   color: var(--Emerald);
@@ -28,9 +36,10 @@ button:hover {
   scale: 1.1;
 }
 
-button:active {
-  
+button.active {
+  background-color: #58508D;
 }
+
 
 #button-container {
   display: flex;
@@ -38,4 +47,10 @@ button:active {
   justify-content: center;
   gap: 2rem;
   margin-bottom: 5rem;
+}
+
+#list-heading {
+  color: var(--Emerald);
+  font-weight: 900;
+  font-size: 2rem;
 }
