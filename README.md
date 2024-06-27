@@ -10,7 +10,7 @@ If you would like to preview the website and use it I would need to add you as a
 > (This will be the method used until Spotify approve my request to change my app from Development mode to Extended quota mode, if they even approve it :sob:) 
 
 # TODO
-- [ ] Button for the Last 12 months says top all time which is wrong
+- [x] Button for the Last 12 months says top all time which is wrong
 - [ ] Responsive design:
   - [ ] List items and buttons overflow when resizing webpage
   - [ ] Mobile responsiveness and color is different
