@@ -16,6 +16,7 @@ If you would like to preview the website and use it I would need to add you as a
   - [ ] Mobile responsiveness and color is different
 - [ ] Code cleanup and commenting
 - [ ] Something on home page?? (Currently its a bit boring)
+- [ ] Tooltip to explain what the note icon does (Plays a preview of the track if one exists)
 
 
 # Setup
