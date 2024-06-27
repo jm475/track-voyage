@@ -4,6 +4,8 @@ import ListItem from './listItem';
 import './API.css';
 import LoadingSpinner from './LoadingSpinner';
 
+
+
 const API = ({ token }) => {
     // State to store user data
     const [userData, setUserData] = useState(null);
@@ -28,32 +30,7 @@ const API = ({ token }) => {
     const longTermUrl = 'https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50';
   
 
-    // Function to fetch user's top tracks
-    // const fetchUserTracks = async (url) => {
-    //   setLoading(true);
-    //     // Make an API request to get user's top tracks
-    //     axios.get(url, {
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //     },
-    //     })
-    //     .then(response => {
-    //         // Update the state with the user data
-    //         setUserData(response.data);
-    //         // Populate track names hook with the fetched data
-    //         populateTrackNamesHook(response.data);
-    //         populateTrackArtistsHook(response.data);
-    //         populateTrackImagesHook(response.data);
-    //         populateTrackLinksHook(response.data);
-    //         populateTrackPreviewUrlsHook(response.data);
-    //     })
-    //     .catch(error => {
-    //         // Log any errors that occur during the API request
-    //         console.error('Error fetching user profile:', error);
-    //     }); 
-    //     setLoading(false);
-    // };
-
+  
     const fetchUserTracks = async (url) => {
       setLoading(true);
       try {

@@ -10,18 +10,35 @@ const ListItem = ({ number, trackNameLS, trackArtistLS, image, link, preview}) =
 
     const [isHovered, setIsHovered] = useState(false);
 
-    const isPreviewAvailable = !!preview; // Check if preview is available
+    const isPreviewAvailable = !!preview; // Check if preview is available (Double !! to see if it exists)
 
     const playAudioPreview = () => {
-      const audioPlayer = document.getElementById('audio-player');
-      audioPlayer.src = preview;
-      audioPlayer.play();
+      if(isPreviewAvailable) {
+          const audioPlayer = document.getElementById('audio-player');
+          // Pause any currently playing audio before starting a new one
+          if (!audioPlayer.paused) {
+            audioPlayer.pause();
+          }
+          audioPlayer.src = preview;
+          // Try to play the audio and handle any errors
+          audioPlayer.play().then(() => {
+            //console.log('Audio is playing');
+          }).catch((error) => {
+            if (error.name === 'AbortError') {
+              //console.log('Audio play was interrupted');
+            } else {
+              console.error('Audio play error:', error);
+            }
+          });
+      }
     };
   
     const stopAudioPreview = () => {
-      const audioPlayer = document.getElementById('audio-player');
-      audioPlayer.pause();
-      audioPlayer.currentTime = 0;
+      if(isPreviewAvailable) {
+        const audioPlayer = document.getElementById('audio-player');
+        audioPlayer.pause();
+        audioPlayer.currentTime = 0;
+      }
     };
 
 
