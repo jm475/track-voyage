@@ -4,7 +4,7 @@ This repository contains code for a React Application that utilizes Spotify's AP
 - Last 6 months
 - Last 12 months
 
-[Visit the website here](https://trackvoyage.netlify.app/).
+[Visit the website here](https://trackvoyage.netlify.app/)
 
 # TODO
 - [x] Button for the Last 12 months says top all time which is wrong
