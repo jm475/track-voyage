@@ -12,8 +12,8 @@ This repository contains code for a React Application that utilizes Spotify's AP
   - [ ] List items and buttons overflow when resizing webpage
   - [ ] Mobile responsiveness and color is different
 - [ ] Code cleanup and commenting
-- [ ] Something on home page?? (Currently its a bit boring)
-- [x] Tooltip to explain what the note icon does (Plays a preview of the track if one exists)
+- [x] Something on home/login page?? (Currently its a bit boring)
+- [ ] Tooltip to explain what the note icon does (Plays a preview of the track if one exists)
 
 
 # Setup
